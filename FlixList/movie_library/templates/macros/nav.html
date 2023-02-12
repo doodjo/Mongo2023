@@ -1,0 +1,55 @@
+{% macro header(email, theme) %}
+{% from "macros/svgs.html" import moon, sun %}
+<header class="header">
+    <div class="nav-container">
+        <a href="{{ url_for('pages.index') }}" class="header__logo">
+            <img class="logo__icon" src="https://i.pinimg.com/564x/4e/f0/10/4ef01025084bcddd7b13e1c7edfc588c.jpg" alt="">
+            <span class="logo__name">FlixList</span>
+        </a>
+        <nav class="nav">
+            {% if not email %}
+                <a
+                    href="{{ url_for('pages.login') }}"
+                    class="nav__link {{ 'nav__link--active' if request.path == url_for('pages.login') }}"
+                >
+                    <span class="nav__item">Prijava</span>
+                </a>
+
+                <a
+                    href="{{ url_for('pages.register') }}"
+                    class="nav__link {{ 'nav__link--active' if request.path == url_for('pages.register') }}"
+                >
+                    <span class="nav__item">Registracija</span>
+                </a>
+
+
+
+            {% else %}
+                <a 
+                href="{{ url_for('pages.index') }}"
+                class="nav__link {{ 'nav__link--active' if request.path == url_for('pages.index')}}">
+                    <span class="nav__item">Filmovi</span>
+                </a>
+
+
+                <a 
+                    href="{{ url_for('pages.logout') }}"
+                    class="nav__link"
+                >
+                    <span class="nav__item">Odjava</span>
+                </a> 
+            {% endif %}
+            <a href="{{ url_for('pages.toggle_theme', current_page=request.path) }}"
+            class="nav__link">
+                <span class="nav__item">
+                    {% if theme == "dark" %}
+                        {{ sun("nav__icon") }}
+                    {% else %}
+                        {{ moon("nav__icon") }}
+                    {% endif %}
+                </span>
+            </a>               
+        </nav>
+    </div>
+</header>
+{% endmacro %}
